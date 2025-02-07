@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  max-in-xlsx:
+    image: max-in-xlsx:latest
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - ps
+networks:
+  ps:
+    driver: bridge
