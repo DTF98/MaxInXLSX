@@ -6,10 +6,8 @@ import DTF98.MaxInXLSX.util.ExcelReader;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,32 +16,32 @@ public class ExcelServicePerformanceTest {
 
     @SneakyThrows
     @Test
-    void testPerformanceFor100Elements() throws IOException, ExecutionException, InterruptedException {
-        testPerformance("test_data_100.xlsx", 100, 5);
+    void testPerformanceFor100Elements() {
+        testPerformance("testData100.xlsx", 100, 5);
     }
 
     @SneakyThrows
     @Test
-    void testPerformanceFor1000Elements() throws IOException, ExecutionException, InterruptedException {
-        testPerformance("test_data_1000.xlsx", 1000, 5);
+    void testPerformanceFor1000Elements() {
+        testPerformance("testData1000.xlsx", 1000, 5);
     }
 
     @SneakyThrows
     @Test
-    void testPerformanceFor5000Elements() throws IOException, ExecutionException, InterruptedException {
-        testPerformance("test_data_5000.xlsx", 5000, 5);
+    void testPerformanceFor5000Elements() {
+        testPerformance("testData5000.xlsx", 5000, 5);
     }
 
     @SneakyThrows
     @Test
-    void testPerformanceFor10000Elements() throws IOException, ExecutionException, InterruptedException {
-        testPerformance("test_data_10000.xlsx", 10000, 5);
+    void testPerformanceFor10000Elements() {
+        testPerformance("testData10000.xlsx", 10000, 5);
     }
 
     @SneakyThrows
     @Test
-    void testPerformanceFor100000Elements() throws IOException, ExecutionException, InterruptedException {
-        testPerformance("test_data_100000.xlsx", 100000, 5);
+    void testPerformanceFor100000Elements() {
+        testPerformance("testData100000.xlsx", 100000, 5);
     }
 
     @SneakyThrows
@@ -56,14 +54,14 @@ public class ExcelServicePerformanceTest {
         long startTimeSingleThread = System.nanoTime();
         int resultSingleThread = (int) methodSingle.invoke(excelService, numbers, n);
         long endTimeSingleThread = System.nanoTime();
-        long durationSingleThread = (endTimeSingleThread - startTimeSingleThread) / 1_000_000;
+        long durationSingleThread = (endTimeSingleThread - startTimeSingleThread) / 1000000;
 
         Method methodMulti = ExcelService.class.getDeclaredMethod("findNthMaxMultiThread", List.class, int.class);
-        methodMulti.setAccessible(true); // Делаем метод доступным
+        methodMulti.setAccessible(true);
         long startTimeMultiThread = System.nanoTime();
         int resultMultiThread = (int) methodMulti.invoke(excelService, numbers, n);
         long endTimeMultiThread = System.nanoTime();
-        long durationMultiThread = (endTimeMultiThread - startTimeMultiThread) / 1_000_000;
+        long durationMultiThread = (endTimeMultiThread - startTimeMultiThread) / 1000000;
 
         assertEquals(resultSingleThread, resultMultiThread, "Результаты однопоточного и многопоточного методов должны совпадать");
 
